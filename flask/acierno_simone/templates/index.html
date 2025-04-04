@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista della Spesa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Aggiungi Font Awesome per le icone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        li {
+            background-color: #f8fafc;
+            margin: 12px 0;
+            padding: 16px 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .delete-btn {
+            background-color: #f1f5f9;  /* Sfondo grigio chiaro */
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 50%;        /* Rende il bottone circolare */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .delete-btn i {
+            color: #ef4444;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #e2e8f0;  /* Grigio leggermente più scuro all'hover */
+            transform: translateY(-2px);
+        }
+
+        .delete-btn:hover i {
+            color: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .svuota {
+            background-color: #ef4444;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .svuota:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .add-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        button[type="submit"] {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista della Spesa</h1>
+        {% if lista %}
+        <ul>
+            {% for elemento in lista %}
+            <li>
+                {{ elemento }}
+                <form action="/rimuovi/{{ loop.index0 }}" method="post" style="display: inline;">
+                    <button type="submit" class="delete-btn">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        <form action="/clear" method="post" style="text-align: center;">
+            <button type="submit" class="svuota">
+                <i class="fas fa-trash-alt"></i> Svuota Lista
+            </button>
+        </form>
+        {% else %}
+        <p class="empty-message">La tua lista è vuota. Aggiungi qualcosa!</p>
+        {% endif %}
+        <form action="/aggiungi" method="post" class="add-form">
+            <input type="text" name="elemento" placeholder="Cosa vuoi aggiungere?" required>
+            <button type="submit">Aggiungi</button>
+        </form>
+    </div>
+</body>
+
+</html>
